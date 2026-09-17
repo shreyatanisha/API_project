@@ -1,24 +1,7 @@
-# from fastapi import FastAPI 
 
-# from schemas import User
 
-# app = FastAPI()
-
-# @app.get("/")
-# def func():
-#     return {"message": "hello world"}
-
-# @app.post("/check-vote")
-# def check_vote(user: User):
-#     if user.age >=18:
-#         return{
-#             "name" : user.name,
-#             "age": user.age,
-#             "eligible":True,
-#             "msg": "You are eligible to vote"
-#         }
-
-from fastapi import FastAPI
+from typing import Optional
+from fastapi import FastAPI,Path
 
 app = FastAPI()
 
@@ -36,5 +19,13 @@ def index():
     return {"name": "First data"}
 
 @app.get("/get-student/{student_id}")
-def get_student(student_id: int):
-    return students.get(student_id)
+def get_student(student_id:int = Path(None,description="The ID of the Student you want to view",gt=0,lt=3) ):
+    return students[student_id]
+
+@app.get("/get-by-name/{student_id}")
+def get_student(*,student_id:int, name: Optional[str]=None,test:int):
+    for student_id in students:
+        if students[student_id]["name"]==name:
+            return students[student_id]
+    return{"Data":"Not Found"}
+
