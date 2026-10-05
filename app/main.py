@@ -37,4 +37,3 @@ def check_vote(user: User):
         "eligible": False,
         "message": "You are not eligible to vote"
     }
-
